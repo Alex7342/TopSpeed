@@ -37,18 +37,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+            //TODO Get permissions
+            /*
+            ActivityCompat.requestPermissions(LoginActivity.this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CALL);
+
+            ActivityCompat.requestPermissions(this,);
+            */
             return;
         }
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5, 0, this);
         this.onLocationChanged((Location) null);
     }
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             speedSeekBar.setProgress(0);
         }
         else {
-            int speed = (int) ((location.getSpeed() * 3600) / 1000);
+            int speed = (int) (location.getSpeed() * 3.6);
             speedTextView.setText(Integer.toString(speed) + " km/h");
             speedSeekBar.setProgress(speed);
 
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }
     }
+
 
 
     @Override
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderDisabled(String provider) {
-
-
+        //TODO
     }
 }
