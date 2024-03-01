@@ -6,38 +6,31 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
-
     private TextView speedTextView;
-    private TextView resultTextView;
-    private SeekBar speedSeekBar;
+    private ProgressBar progressBar;
 
-    private TextView timeElapsedView;
-    private long startTime;
-    private long endTime;
-    private boolean hasChanged;
-    private boolean hasFinished;
+    private Repository repository;
     
     private static final int locationRequestCode = 1;
-    private static final int minimumUpdateTime= 50; // ms
+    private static final int minimumUpdateTime = 0; // ms
     private static final int minimumUpdateDistance = 0; //m
 
-    private void initialise(){
-        hasChanged = false;
-        hasFinished = false;
+    private void initialise() {
+        repository = new Repository();
 
         speedTextView.setText("0 km/h");
-        speedSeekBar.setProgress(0);
-
+        progressBar.setProgress(0);
     }
 
     private void requestPermissions(){
@@ -49,21 +42,22 @@ public class MainActivity extends AppCompatActivity{
         else
             Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
     }
+
+    private void startResultsActivity(){
+        startActivity(new Intent(MainActivity.this, ResultsActivity.class));
+    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        speedTextView = findViewById(R.id.speedTextView);
-        resultTextView = findViewById(R.id.resultTextView);
-        speedSeekBar = findViewById(R.id.speedSeekBar);
-        timeElapsedView = findViewById(R.id.timeElapsedView);
-        hasChanged = false;
-        hasFinished = false;
+        progressBar = findViewById(R.id.progressBar);
+        speedTextView = findViewById(R.id.texViewProgress);
         
         requestPermissions();
         initialise();
+        startResultsActivity();
         
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -74,28 +68,23 @@ public class MainActivity extends AppCompatActivity{
                 public void onLocationChanged(@NonNull Location location) {
                     int speed = (int) (location.getSpeed() * 3.6);
                     speedTextView.setText(speed + " km/h");
-                    speedSeekBar.setProgress(speed);
+                    progressBar.setProgress(speed);
 
-                    if (!hasChanged) {
-                        hasChanged = true;
-                        startTime = System.currentTimeMillis();
+                    if (!repository.getHasChanged() && speed > 0) {
+                        repository.setHasChanged(true);
+                        repository.setStartTime(System.currentTimeMillis());
                     }
 
-                    if (speed >= 100 && !hasFinished) {
-                        hasFinished = true;
-                        endTime = System.currentTimeMillis();
-                        resultTextView.setText("Result: " + computeTimeElapsed() + " s");
+                    if (speed >= 100 && !repository.getHasFinished()) {
+                        repository.setHasFinished(true);
+                        repository.setEndTime(System.currentTimeMillis());
                     }
 
-                    timeElapsedView.setText(Double.toString(Math.round(System.currentTimeMillis() - startTime / 1000.0)) + " s");
+                    //long millisTime = System.currentTimeMillis() - repository.getStartTime();
+                    //double seconds = millisTime / 1000.0;
                 }
             });
         }
-    }
-
-    private String computeTimeElapsed() {
-        double timeElapsed = Math.round((endTime - startTime) / 1000.0);
-        return Double.toString(timeElapsed);
     }
 
     @Override
