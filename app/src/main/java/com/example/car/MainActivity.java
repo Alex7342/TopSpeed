@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity{
     private TextView speedTextView;
     private ProgressBar progressBar;
@@ -44,7 +46,17 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void startResultsActivity(){
-        startActivity(new Intent(MainActivity.this, ResultsActivity.class));
+       Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
+       Result lastResult = this.controller.getLastResult();
+
+       intent.putExtra("totalTime", Double.toString(lastResult.getTime_0_100()));
+       intent.putExtra("averageSpeed", Double.toString(lastResult.getAverageSpeed()));
+       intent.putExtra("maxSpeed", Integer.toString(lastResult.getMaxSpeed()));
+       startActivity(intent);
+    }
+
+    void addDemoEntity(){
+        controller.addResult();
     }
     
     @Override
@@ -57,7 +69,8 @@ public class MainActivity extends AppCompatActivity{
         
         requestPermissions();
         initialise();
-        startResultsActivity();
+        //addDemoEntity();
+        //startResultsActivity();
         
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -81,6 +94,7 @@ public class MainActivity extends AppCompatActivity{
                         controller.setHasFinished(true);
                         controller.setEndTime(System.currentTimeMillis());
                         controller.addResult();
+                        startResultsActivity();
                     }
 
                     //long millisTime = System.currentTimeMillis() - repository.getStartTime();
