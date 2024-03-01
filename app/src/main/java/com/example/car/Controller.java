@@ -1,12 +1,12 @@
 package com.example.car;
 
-public class Repository {
+public class Controller {
     private long startTime;
     private long endTime;
     private boolean hasChanged;
     private boolean hasFinished;
 
-    public Repository(){
+    public Controller(){
         this.hasChanged = this.hasFinished = false;
         this.startTime = this.endTime = 0;
     }
