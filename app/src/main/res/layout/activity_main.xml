@@ -63,4 +63,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedSeekBar" />
 
+    <TextView
+        android:id="@+id/timeElapsedView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time elapsed: 0 s"
+        app:layout_constraintBottom_toTopOf="@+id/speedTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
