@@ -20,14 +20,14 @@ public class MainActivity extends AppCompatActivity{
     private TextView speedTextView;
     private ProgressBar progressBar;
 
-    private Repository repository;
+    private Controller controller;
     
     private static final int locationRequestCode = 1;
     private static final int minimumUpdateTime = 0; // ms
     private static final int minimumUpdateDistance = 0; //m
 
     private void initialise() {
-        repository = new Repository();
+        controller = new Controller();
 
         speedTextView.setText("0 km/h");
         progressBar.setProgress(0);
@@ -70,14 +70,17 @@ public class MainActivity extends AppCompatActivity{
                     speedTextView.setText(speed + " km/h");
                     progressBar.setProgress(speed);
 
-                    if (!repository.getHasChanged() && speed > 0) {
-                        repository.setHasChanged(true);
-                        repository.setStartTime(System.currentTimeMillis());
+                    controller.updateMaxSpeed(speed);
+
+                    if (!controller.getHasChanged() && speed > 0) {
+                        controller.setHasChanged(true);
+                        controller.setStartTime(System.currentTimeMillis());
                     }
 
-                    if (speed >= 100 && !repository.getHasFinished()) {
-                        repository.setHasFinished(true);
-                        repository.setEndTime(System.currentTimeMillis());
+                    if (speed >= 100 && !controller.getHasFinished()) {
+                        controller.setHasFinished(true);
+                        controller.setEndTime(System.currentTimeMillis());
+                        controller.addResult();
                     }
 
                     //long millisTime = System.currentTimeMillis() - repository.getStartTime();

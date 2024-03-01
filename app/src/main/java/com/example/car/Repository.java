@@ -1,45 +1,20 @@
 package com.example.car;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Repository {
-    private long startTime;
-    private long endTime;
-    private boolean hasChanged;
-    private boolean hasFinished;
+    private ArrayList<Result> resultList;
 
-    public Repository(){
-        this.hasChanged = this.hasFinished = false;
-        this.startTime = this.endTime = 0;
+    public Repository() {
+        this.resultList = new ArrayList<Result>();
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public ArrayList<Result> getResultList() {
+        return this.resultList;
     }
 
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setHasChanged(boolean hasChanged) {
-        this.hasChanged = hasChanged;
-    }
-
-    public void setHasFinished(boolean hasFinished) {
-        this.hasFinished = hasFinished;
-    }
-
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public long getEndTime() {
-        return endTime;
-    }
-
-    public boolean getHasChanged() {
-        return hasChanged;
-    }
-
-    public boolean getHasFinished(){
-        return hasFinished;
+    public void addResult(Result newResult) {
+        this.resultList.add(newResult);
     }
 }
