@@ -40,6 +40,7 @@ public class MainActivityController{
         this.startTime = this.endTime = this.maxSpeed = this.currentSpeed = 0;
         this.speedList.clear();
         this.updateActivitySpeedViews();
+        this.updateActivityTimer();
     }
     private void updateSpeedVariables(int currentSpeed){
         this.currentSpeed = currentSpeed;
@@ -57,13 +58,24 @@ public class MainActivityController{
         startActivity(this.activityContext, intent, null);
     }
 
-    public void updateActivitySpeedViews(){
-        ((MainActivity) activityContext).updateSpeedViews((int) (this.currentSpeed / this.speedConversionCoeff));
+    private String getCurrentTimePeriod(){
+        if (this.startTime == 0)
+            return "0";
+        return Double.toString((System.currentTimeMillis() - this.startTime) / 1000.0);
+    }
+
+    private void updateActivityTimer(){
+        ((MainActivity) activityContext).updateTimerView(getCurrentTimePeriod());
+    }
+
+    private void updateActivitySpeedViews(){
+        ((MainActivity) activityContext).updateSpeedViews(this.currentSpeed, this.speedConversionCoeff);
     }
 
     public void onLocationChanged(int locationSpeed){
         if (this.currentSpeed != locationSpeed)
             this.onSpeedChanged(locationSpeed);
+        updateActivityTimer();
     }
 
     private void onSpeedChanged(int currentSpeed){

@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.example.car.controller.MainActivityController;
 
 public class MainActivity extends AppCompatActivity{
-    private TextView speedTextView;
+    private TextView speedTextView, timerTextView;
     private Button resetButton;
     private ProgressBar progressBar;
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
         MyApplication applicationClass = (MyApplication) getApplicationContext();
         controller = new MainActivityController(applicationClass.getResultsRepository(), this);
 
-       initialiseSpeedViews();
+       initialiseViews();
     }
 
     private void requestPermissions(){
@@ -47,14 +47,19 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
     }
 
-    public void updateSpeedViews(int speed){
+    public void updateSpeedViews(int speed, double speedometerConversionCoefficient){
         speedTextView.setText(speed + " km/h");
-        progressBar.setProgress(speed);
+        progressBar.setProgress((int) (speed / speedometerConversionCoefficient));
     }
 
-    public void initialiseSpeedViews(){
+    public void updateTimerView(String time){
+        timerTextView.setText(time + " s");
+    }
+
+    public void initialiseViews(){
         speedTextView.setText("0 km/h");
         progressBar.setProgress(0);
+        timerTextView.setText("0.00 s");
     }
     
     @Override
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity{
         progressBar = findViewById(R.id.progressBar);
         speedTextView = findViewById(R.id.texViewProgress);
         resetButton = findViewById(R.id.resetButton);
+        timerTextView = findViewById(R.id.timerTextView);
 
         requestPermissions();
         initialise();
