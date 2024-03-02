@@ -5,12 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
+
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
+
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -18,6 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.car.controller.MainActivityController;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
 public class MainActivity extends AppCompatActivity{
     private TextView speedTextView, timerTextView;
@@ -74,17 +80,32 @@ public class MainActivity extends AppCompatActivity{
 
         requestPermissions();
         initialise();
-        
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumUpdateTime, minimumUpdateDistance, new LocationListener() {
+            FusedLocationProviderClient locationClient = LocationServices.getFusedLocationProviderClient(this);
+
+            LocationRequest locationRequest = new LocationRequest.Builder(
+                    Priority.PRIORITY_HIGH_ACCURACY,
+                    100
+            ).setIntervalMillis(100)
+                    .setMinUpdateIntervalMillis(100)
+                    .setWaitForAccurateLocation(false)
+                    .setMaxUpdateAgeMillis(100)
+                    .setMinUpdateDistanceMeters(1)
+                    .build();
+
+            LocationCallback locationCallback = new LocationCallback() {
                 @Override
-                public void onLocationChanged(@NonNull Location location) {
-                    controller.onLocationChanged((int) (location.getSpeed() * 3.6));
+                public void onLocationResult(@NonNull LocationResult locationResult) {
+                    for (Location location : locationResult.getLocations()){
+                        controller.onLocationChanged((int) location.getSpeed());
+                    }
                 }
-            });
+            };
+
+            locationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
         }
 
         resetButton.setOnClickListener(new View.OnClickListener() {
