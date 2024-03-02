@@ -6,33 +6,35 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.car.controller.MainActivityController;
 
 public class MainActivity extends AppCompatActivity{
     private TextView speedTextView;
+    private Button resetButton;
     private ProgressBar progressBar;
 
-    private Controller controller;
+    private MainActivityController controller;
     
     private static final int locationRequestCode = 1;
-    private static final int minimumUpdateTime = 0; // ms
-    private static final int minimumUpdateDistance = 0; //m
+    private static final int minimumUpdateTime = 20; // ms
+    private static final int minimumUpdateDistance = 2; //m
 
     private void initialise() {
-        controller = new Controller();
+        MyApplication applicationClass = (MyApplication) getApplicationContext();
+        controller = new MainActivityController(applicationClass.getResultsRepository(), this);
 
-        speedTextView.setText("0 km/h");
-        progressBar.setProgress(0);
+       initialiseSpeedViews();
     }
 
     private void requestPermissions(){
@@ -45,18 +47,14 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show();
     }
 
-    private void startResultsActivity(){
-       Intent intent = new Intent(MainActivity.this, ResultsActivity.class);
-       Result lastResult = this.controller.getLastResult();
-
-       intent.putExtra("totalTime", Double.toString(lastResult.getTime_0_100()));
-       intent.putExtra("averageSpeed", Double.toString(lastResult.getAverageSpeed()));
-       intent.putExtra("maxSpeed", Integer.toString(lastResult.getMaxSpeed()));
-       startActivity(intent);
+    public void updateSpeedViews(int speed){
+        speedTextView.setText(speed + " km/h");
+        progressBar.setProgress(speed);
     }
 
-    void addDemoEntity(){
-        controller.addResult();
+    public void initialiseSpeedViews(){
+        speedTextView.setText("0 km/h");
+        progressBar.setProgress(0);
     }
     
     @Override
@@ -66,11 +64,10 @@ public class MainActivity extends AppCompatActivity{
 
         progressBar = findViewById(R.id.progressBar);
         speedTextView = findViewById(R.id.texViewProgress);
-        
+        resetButton = findViewById(R.id.resetButton);
+
         requestPermissions();
         initialise();
-        //addDemoEntity();
-        //startResultsActivity();
         
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -79,29 +76,17 @@ public class MainActivity extends AppCompatActivity{
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minimumUpdateTime, minimumUpdateDistance, new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
-                    int speed = (int) (location.getSpeed() * 3.6);
-                    speedTextView.setText(speed + " km/h");
-                    progressBar.setProgress(speed);
-
-                    controller.updateMaxSpeed(speed);
-
-                    if (!controller.getHasChanged() && speed > 0) {
-                        controller.setHasChanged(true);
-                        controller.setStartTime(System.currentTimeMillis());
-                    }
-
-                    if (speed >= 100 && !controller.getHasFinished()) {
-                        controller.setHasFinished(true);
-                        controller.setEndTime(System.currentTimeMillis());
-                        controller.addResult();
-                        startResultsActivity();
-                    }
-
-                    //long millisTime = System.currentTimeMillis() - repository.getStartTime();
-                    //double seconds = millisTime / 1000.0;
+                    controller.onLocationChanged((int) (location.getSpeed() * 3.6));
                 }
             });
         }
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.onResetAction();
+            }
+        });
     }
 
     @Override

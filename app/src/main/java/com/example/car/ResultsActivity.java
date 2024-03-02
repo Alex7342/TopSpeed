@@ -2,6 +2,7 @@ package com.example.car;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,10 @@ public class ResultsActivity extends AppCompatActivity {
 
     private Button exitButton;
 
-    private RecyclerView recyclerView;
+    private CardView cardView;
+    private TextView totalTimeTextView;
+    private TextView averageSpeedTextView;
+    private TextView maxSpeedTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,25 +36,14 @@ public class ResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         exitButton = findViewById(R.id.exitButton);
-        recyclerView = findViewById(R.id.recyclerView);
+        cardView = findViewById(R.id.cardView);
+        totalTimeTextView = cardView.findViewById(R.id.totalTimeTextView);
+        averageSpeedTextView = cardView.findViewById(R.id.averageSpeedTextView);
+        maxSpeedTextView = cardView.findViewById(R.id.maxSpeedTextView);
 
-        ResultsModel resultModel = new ResultsModel(intent.getStringExtra("totalTime"),
-                intent.getStringExtra("averageSpeed"), intent.getStringExtra("maxSpeed"));
-
-        ArrayList<ResultsModel> resultsModelsList = new ArrayList<>();
-        resultsModelsList.add(resultModel);
-
-        ResultsAdaptor adaptor = new ResultsAdaptor(this, resultsModelsList);
-        recyclerView.setAdapter(adaptor);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        WindowMetrics metrics = windowManager.getMaximumWindowMetrics();
-        Rect bounds = metrics.getBounds();
-
-        int width = bounds.width();
-        int height = bounds.height();
-        //getWindow().setLayout((int) (width * 0.4), (int) (height * 0.4));
+        totalTimeTextView.setText(intent.getStringExtra("totalTime"));
+        averageSpeedTextView.setText(intent.getStringExtra("averageSpeed"));
+        maxSpeedTextView.setText(intent.getStringExtra("maxSpeed"));
 
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,10 +52,5 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private ArrayList<ResultsModel> getResultsModelArrayList(ArrayList<Result> inputList){
-        ArrayList<ResultsModel> resultArray = new ArrayList<>();
-        return resultArray;
     }
 }
