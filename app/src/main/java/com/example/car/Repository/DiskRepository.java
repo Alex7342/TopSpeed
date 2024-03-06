@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
-public class DiskRepository <E> implements IRepository<E> {
-    private ArrayList<E> entityList;
+public class DiskRepository {
+    private ArrayList<Result> entityList;
     private Context activityContext;
     private String fileName = "com.example.car.PREFERENCE_FILE_KEY";
     private SharedPreferences sharedPref;
@@ -46,12 +46,17 @@ public class DiskRepository <E> implements IRepository<E> {
             double time = sharedPref.getFloat(getTimeID(i), defualtFloatValue);
             int maxSpeed = sharedPref.getInt(getMaxSpeedID(i), defaultIntValue);
             double averageSpeed = sharedPref.getFloat(getAverageSpeedID(i), defualtFloatValue);
-            //this.entityList.add(new Result(time, maxSpeed, averageSpeed));
+            this.entityList.add(new Result(time, maxSpeed, averageSpeed));
         }
+    }
+
+    private void writeToDisk() {
+
     }
 
     public DiskRepository(Context iActivityContext) {
         this.activityContext = iActivityContext;
+        this.entityList = new ArrayList<>();
         sharedPref = this.activityContext.getSharedPreferences(
                 this.fileName, Context.MODE_PRIVATE);
 
@@ -60,14 +65,23 @@ public class DiskRepository <E> implements IRepository<E> {
             readFromDisk(count);
     }
 
-    @Override
-    public void addEntity(E newEntity) {
+    public void addEntity(Result newEntity) {
         this.entityList.add(newEntity);
-        //this.write();
+
+        SharedPreferences.Editor editor = this.sharedPref.edit();
+        int count = sharedPref.getInt(countID, defaultIntValue);
+
+        if (count == defaultIntValue)
+            count = 0;
+
+        editor.putFloat(this.getTimeID(count), (float) newEntity.getTime_0_100());
+        editor.putInt(this.getMaxSpeedID(count), newEntity.getMaxSpeed());
+        editor.putFloat(this.getAverageSpeedID(count), (float) newEntity.getAverageSpeed());
+        editor.putInt(countID, count + 1);
+        editor.apply();
     }
 
-    @Override
-    public ArrayList<E> getAllEntities() {
+    public ArrayList<Result> getAllEntities() {
         return this.entityList;
     }
 

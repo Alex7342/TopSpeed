@@ -2,6 +2,7 @@ package com.example.car.controller;
 
 import android.content.Context;
 
+import com.example.car.Repository.DiskRepository;
 import com.example.car.Repository.IRepository;
 import com.example.car.Result;
 
@@ -9,11 +10,11 @@ import java.util.ArrayList;
 
 public class StatisticsActivityController {
 
-    private IRepository<Result> repository;
+    private DiskRepository repository;
     private Context activityContext;
 
 
-    public StatisticsActivityController(IRepository<Result> iRepository, Context iActivityContext){
+    public StatisticsActivityController(DiskRepository iRepository, Context iActivityContext){
         this.repository = iRepository;
         this.activityContext = iActivityContext;
     }

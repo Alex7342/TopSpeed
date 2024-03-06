@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.car.MainActivity;
+import com.example.car.Repository.DiskRepository;
 import com.example.car.Repository.IRepository;
 import com.example.car.Result;
 import com.example.car.ResultsActivity;
@@ -24,17 +25,18 @@ public class MainActivityController{
     private int currentSpeed;
     private ArrayList<Integer> speedList;
 
-    private IRepository<Result> repository;
+    private DiskRepository repository;
     private Context activityContext;
 
     private final int testSpeed = 30;
     private final double speedConversionCoeff = 2.5;
 
-    public MainActivityController(IRepository<Result> iRepository, Context iActivityContext){
+    public MainActivityController(DiskRepository iRepository, Context iActivityContext){
         this.repository = iRepository;
         this.activityContext = iActivityContext;
         this.speedList = new ArrayList<>();
         this.resetSession();
+        //repository.addEntity(new Result(5.65, 120, 65));
     }
 
     public void resetSession(){

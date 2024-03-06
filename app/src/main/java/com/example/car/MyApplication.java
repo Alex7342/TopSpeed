@@ -7,14 +7,14 @@ import com.example.car.Repository.IRepository;
 import com.example.car.Repository.InMemoryRepository;
 
 public class MyApplication extends Application {
-    private IRepository<Result> resultsRepository;
+    private DiskRepository resultsRepository;
     @Override
     public void onCreate() {
         super.onCreate();
-        resultsRepository = new DiskRepository<>(getApplicationContext());
+        resultsRepository = new DiskRepository(getApplicationContext());
     }
 
-    public IRepository<Result> getResultsRepository(){
+    public DiskRepository getResultsRepository(){
         return this.resultsRepository;
     }
 }
