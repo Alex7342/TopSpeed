@@ -10,6 +10,7 @@ import com.example.car.MainActivity;
 import com.example.car.Repository.IRepository;
 import com.example.car.Result;
 import com.example.car.ResultsActivity;
+import com.example.car.activity.StatisticsActivity;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,14 @@ public class MainActivityController{
         intent.putExtra("averageSpeed", Double.toString(lastResult.getAverageSpeed()));
         intent.putExtra("maxSpeed", Integer.toString(lastResult.getMaxSpeed()));
         startActivity(this.activityContext, intent, null);
+    }
+
+    public void startSettingsActivity(){
+
+    }
+
+    public void startStatisticsActivity(){
+        startActivity(this.activityContext, new Intent(activityContext, StatisticsActivity.class), null);
     }
 
     private String getCurrentTimePeriod(){

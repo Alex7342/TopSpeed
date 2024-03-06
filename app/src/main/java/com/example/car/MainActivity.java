@@ -7,10 +7,13 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -27,8 +30,8 @@ public class MainActivity extends AppCompatActivity{
     private MainActivityController controller;
     
     private static final int locationRequestCode = 1;
-    private static final int minimumUpdateTime = 20; // ms
-    private static final int minimumUpdateDistance = 2; //m
+    private static final int minimumUpdateTime = 0; // ms
+    private static final int minimumUpdateDistance = 0; //m
 
     private void initialise() {
         MyApplication applicationClass = (MyApplication) getApplicationContext();
@@ -93,6 +96,31 @@ public class MainActivity extends AppCompatActivity{
                 controller.onResetAction();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.settings){
+            controller.startSettingsActivity();
+            return true;
+        }
+        else if (itemId == R.id.speed){
+            return true;
+        }
+        else if (itemId == R.id.statistics){
+            controller.startStatisticsActivity();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
