@@ -15,12 +15,6 @@
                 android:icon="@drawable/settings_icon"/>
 
             <item
-                android:id="@+id/speed"
-                android:title="Speed"
-                app:showAsAction="never"
-                android:icon="@drawable/speed_icon"/>
-
-            <item
                 android:id="@+id/statistics"
                 android:title="Statistics"
                 app:showAsAction="never"

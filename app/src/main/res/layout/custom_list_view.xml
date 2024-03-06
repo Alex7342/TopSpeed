@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/black"
-    android:layout_height="match_parent">
+    android:layout_height="100dp"
+    android:theme="@style/Theme.Material3.Dark">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -23,8 +23,7 @@
                 android:id="@+id/totalTimeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
-                android:layout_marginBottom="640dp"
+                android:layout_marginBottom="8dp"
                 android:text="TextView"
                 android:textColor="@color/tan_accent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -37,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="72dp"
-                android:textColor="@color/tan_accent"
                 android:text="TextView"
+                android:textColor="@color/tan_accent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.478"
                 app:layout_constraintStart_toEndOf="@+id/totalTimeTextView"
@@ -49,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="72dp"
-                android:textColor="@color/tan_accent"
                 android:text="TextView"
+                android:textColor="@color/tan_accent"
                 app:layout_constraintEnd_toStartOf="@+id/totalTimeTextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,8 +58,8 @@
                 android:id="@+id/testTimeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/tan_accent"
                 android:text="TextView"
+                android:textColor="@color/tan_accent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

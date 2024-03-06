@@ -32,4 +32,8 @@
         <item name="android:progressDrawable">@drawable/circle</item>
     </style>
 
+    <style name="ButtonDarkBlue">
+        <item name="colorAccent">@color/dark_blue</item>
+    </style>
+
 </resources>

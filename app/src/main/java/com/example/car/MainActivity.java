@@ -112,9 +112,6 @@ public class MainActivity extends AppCompatActivity{
             controller.startSettingsActivity();
             return true;
         }
-        else if (itemId == R.id.speed){
-            return true;
-        }
         else if (itemId == R.id.statistics){
             controller.startStatisticsActivity();
             return true;
