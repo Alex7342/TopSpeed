@@ -5,6 +5,7 @@ import static java.lang.Math.max;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.car.MainActivity;
 import com.example.car.Repository.IRepository;

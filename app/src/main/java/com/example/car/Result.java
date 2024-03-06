@@ -1,5 +1,7 @@
 package com.example.car;
 
+import java.io.Serializable;
+
 public class Result {
     private final double time_0_100;
     private final int maxSpeed;
