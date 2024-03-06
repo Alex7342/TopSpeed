@@ -8,4 +8,6 @@
     <color name="teal_700">#00796B</color>
     <color name="blue_black">#111f28</color>
     <color name="tan_accent">#e3cdb3</color>
+    <color name="dark_gray">#3c4043</color>
+    <color name="dark_blue">#203354</color>
 </resources>
