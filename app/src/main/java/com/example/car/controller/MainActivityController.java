@@ -12,6 +12,7 @@ import com.example.car.Repository.DiskRepository;
 import com.example.car.Repository.IRepository;
 import com.example.car.Result;
 import com.example.car.ResultsActivity;
+import com.example.car.activity.SettingsActivity;
 import com.example.car.activity.StatisticsActivity;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class MainActivityController{
     }
 
     public void startSettingsActivity(){
-
+        startActivity(this.activityContext, new Intent(activityContext, SettingsActivity.class), null);
     }
 
     public void startStatisticsActivity(){

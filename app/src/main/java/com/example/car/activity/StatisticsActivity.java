@@ -1,5 +1,6 @@
 package com.example.car.activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -32,6 +33,9 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
         resultsListView = findViewById(R.id.statisticsListView);
         statisticsExitButton = findViewById(R.id.statisticsExitButton);
+        ActionBar activityActionBar = getSupportActionBar();
+        if (activityActionBar != null)
+            activityActionBar.setTitle("Statistics");
 
         initialise();
 

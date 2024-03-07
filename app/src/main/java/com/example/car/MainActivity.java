@@ -1,6 +1,7 @@
 package com.example.car;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar activityActionBar = getSupportActionBar();
+        if (activityActionBar != null)
+            activityActionBar.setTitle("Test");
 
         progressBar = findViewById(R.id.progressBar);
         speedTextView = findViewById(R.id.texViewProgress);
