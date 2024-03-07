@@ -29,6 +29,8 @@ public class DiskRepository {
     private static int defaultIntValue = -1;
     private static float defualtFloatValue = -1;
 
+    private static String defaultDateTime = "2000/01/01 00:00:00";
+
     private String getTimeID(int position) {
         return Integer.toString(position) + "_Time";
     }
@@ -41,17 +43,18 @@ public class DiskRepository {
         return Integer.toString(position) + "_AverageSpeed";
     }
 
+    private String getDateTimeID(int position) {
+        return Integer.toString(position) + "_DateTime";
+    }
+
     private void readFromDisk(int count) {
         for (int i = 0; i < count; i++) {
             double time = sharedPref.getFloat(getTimeID(i), defualtFloatValue);
             int maxSpeed = sharedPref.getInt(getMaxSpeedID(i), defaultIntValue);
             double averageSpeed = sharedPref.getFloat(getAverageSpeedID(i), defualtFloatValue);
-            this.entityList.add(new Result(time, maxSpeed, averageSpeed));
+            String dateTime = sharedPref.getString(getDateTimeID(i), defaultDateTime);
+            this.entityList.add(new Result(time, maxSpeed, averageSpeed, dateTime));
         }
-    }
-
-    private void writeToDisk() {
-
     }
 
     public DiskRepository(Context iActivityContext) {
@@ -77,6 +80,7 @@ public class DiskRepository {
         editor.putFloat(this.getTimeID(count), (float) newEntity.getTime_0_100());
         editor.putInt(this.getMaxSpeedID(count), newEntity.getMaxSpeed());
         editor.putFloat(this.getAverageSpeedID(count), (float) newEntity.getAverageSpeed());
+        editor.putString(this.getDateTimeID(count), newEntity.getDateTime());
         editor.putInt(countID, count + 1);
         editor.apply();
     }

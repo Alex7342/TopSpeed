@@ -46,7 +46,7 @@ public class ResultAdaptor extends BaseAdapter {
         totalTimeTextView.setText("Total " + Double.toString(resultArrayList.get(position).getTime_0_100()) + " s");
         maxSpeedTextView.setText("Max " + Integer.toString(resultArrayList.get(position).getMaxSpeed()) + " km/h");
         averageSpeedTextView.setText("Avg " + Double.toString(resultArrayList.get(position).getAverageSpeed()) + " km/h");
-        testTimeTextView.setText("Add testTimeStart to Results class!");
+        testTimeTextView.setText(resultArrayList.get(position).getDateTime());
 
         return convertView;
     }

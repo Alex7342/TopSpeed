@@ -14,7 +14,10 @@ import com.example.car.Result;
 import com.example.car.ResultsActivity;
 import com.example.car.activity.StatisticsActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivityController{
     private long startTime;
@@ -36,7 +39,7 @@ public class MainActivityController{
         this.activityContext = iActivityContext;
         this.speedList = new ArrayList<>();
         this.resetSession();
-        //repository.addEntity(new Result(5.65, 120, 65));
+        //repository.addEntity(new Result(5.65, 120, 65, this.getCurrentDateTime()));
     }
 
     public void resetSession(){
@@ -74,6 +77,12 @@ public class MainActivityController{
         if (this.startTime == 0)
             return "0";
         return Double.toString((System.currentTimeMillis() - this.startTime) / 1000.0);
+    }
+
+    private String getCurrentDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     private void updateActivityTimer(){
@@ -116,7 +125,7 @@ public class MainActivityController{
     }
 
     private void addResult() {
-        this.repository.addEntity(new Result(this.computeTotalTime(), this.maxSpeed, this.getAverageSpeed()));
+        this.repository.addEntity(new Result(this.computeTotalTime(), this.maxSpeed, this.getAverageSpeed(), this.getCurrentDateTime()));
     }
 
     private Result getLastResult(){
@@ -125,7 +134,7 @@ public class MainActivityController{
         if (resultList.size() > 0)
             return resultList.get(resultList.size() - 1);
         else
-            return new Result(0, 0, 0);
+            return new Result(0, 0, 0, "2000/01/01 00:00:00");
     }
 
     private double getAverageSpeed(){
