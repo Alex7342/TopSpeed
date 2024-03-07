@@ -65,6 +65,13 @@ public class DiskRepository {
 
         this.unit = this.sharedPref.getString(unitID, defaultUnit);
         this.testSpeed = this.sharedPref.getInt(testSpeedID, defaultTestSpeed);
+
+        if (this.testSpeed == defaultTestSpeed) {
+            if (Objects.equals(this.unit, "metric"))
+                this.testSpeed = defaultMetricTestSpeed;
+            else
+                this.testSpeed = defaultImperialTestSpeed;
+        }
     }
 
     public DiskRepository(Context iActivityContext) {
