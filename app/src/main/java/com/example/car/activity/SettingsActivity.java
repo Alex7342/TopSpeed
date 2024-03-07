@@ -32,11 +32,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static int defaultSpeedValue = -1;
 
+    private void initialiseViews(){
+        this.unitSwitch.setChecked(controller.getRepoUnit());
+        this.testSpeedEdit.setText((CharSequence) Integer.toString(controller.getRepoTestSpeed()));
+    }
+
     private void initialise(){
         MyApplication applicationClass = (MyApplication) getApplicationContext();
         controller = new SettingsActivityController(applicationClass.getResultsRepository(), this);
 
-        unitSwitchState = false;
+        initialiseViews();
     }
 
     private void onSwitchStateChanged(boolean newState){
