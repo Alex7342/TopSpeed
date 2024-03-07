@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity{
         MyApplication applicationClass = (MyApplication) getApplicationContext();
         controller = new MainActivityController(applicationClass.getResultsRepository(), this);
 
+
        initialiseViews();
     }
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void initialiseViews(){
-        speedTextView.setText("0 km/h");
+        speedTextView.setText("0" + controller.getMetricUnitString());
         progressBar.setProgress(0);
         timerTextView.setText("0.00 s");
     }

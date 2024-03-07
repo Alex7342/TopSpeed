@@ -81,8 +81,7 @@ public class DiskRepository {
                 this.fileName, Context.MODE_PRIVATE);
 
         int count = sharedPref.getInt(countID, defaultIntValue);
-        if (count != defaultIntValue)
-            readFromDisk(count);
+        readFromDisk(count);
     }
 
     public void addEntity(Result newEntity) {

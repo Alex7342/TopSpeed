@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class MainActivityController{
     private long startTime;
@@ -33,19 +34,19 @@ public class MainActivityController{
     private Context activityContext;
 
     private final int testSpeed = 30;
-    private final double speedConversionCoeff = 2.5;
+    private double speedConversionCoeff;
 
     public MainActivityController(DiskRepository iRepository, Context iActivityContext){
         this.repository = iRepository;
         this.activityContext = iActivityContext;
         this.speedList = new ArrayList<>();
         this.resetSession();
-        //repository.addEntity(new Result(5.65, 120, 65, this.getCurrentDateTime()));
     }
 
     public void resetSession(){
         this.hasChanged = this.hasFinished = false;
         this.startTime = this.endTime = this.maxSpeed = this.currentSpeed = 0;
+        this.speedConversionCoeff = (double) repository.getTestSpeed() / 100;
         this.speedList.clear();
         this.updateActivitySpeedViews();
         this.updateActivityTimer();
@@ -54,6 +55,12 @@ public class MainActivityController{
         this.currentSpeed = currentSpeed;
         this.maxSpeed = max(this.maxSpeed, currentSpeed);
         this.speedList.add(currentSpeed);
+    }
+
+    public String getMetricUnitString(){
+        if (Objects.equals(this.repository.getUnit(), "metric"))
+            return " km/h";
+        return " mph";
     }
 
     public void startResultsActivity(){
