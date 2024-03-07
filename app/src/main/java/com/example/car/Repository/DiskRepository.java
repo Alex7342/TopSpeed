@@ -15,20 +15,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.Scanner;
 import java.util.Set;
 
 public class DiskRepository {
     private ArrayList<Result> entityList;
+    private String unit;
+    private int testSpeed;
     private Context activityContext;
     private String fileName = "com.example.car.PREFERENCE_FILE_KEY";
     private SharedPreferences sharedPref;
-
     private static String countID = "countID";
-
     private static int defaultIntValue = -1;
     private static float defualtFloatValue = -1;
-
     private static String defaultDateTime = "2000/01/01 00:00:00";
 
     private String getTimeID(int position) {
@@ -91,5 +91,9 @@ public class DiskRepository {
 
     public int getSize() {
         return this.entityList.size();
+    }
+
+    public void onUnitChanged(String newUnit) {
+
     }
 }
