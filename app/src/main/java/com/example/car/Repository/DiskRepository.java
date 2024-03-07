@@ -83,6 +83,9 @@ public class DiskRepository {
         int count = sharedPref.getInt(countID, defaultIntValue);
         if (count != defaultIntValue)
             readFromDisk(count);
+
+        Log.d("UNIT_SPEED", this.unit);
+        Log.d("UNIT_SPEED", Integer.toString(this.testSpeed));
     }
 
     public void addEntity(Result newEntity) {
@@ -106,6 +109,14 @@ public class DiskRepository {
         return this.entityList;
     }
 
+    public String getUnit() {
+        return this.unit;
+    }
+
+    public int getTestSpeed() {
+        return this.testSpeed;
+    }
+
     public int getSize() {
         return this.entityList.size();
     }
@@ -117,12 +128,13 @@ public class DiskRepository {
     public void onUnitChanged(String newUnit) {
         if (Objects.equals(newUnit, "metric") || Objects.equals(newUnit, "imperial"))
             this.unit = newUnit;
-        else
-            this.unit = defaultUnit;
 
         SharedPreferences.Editor editor = this.sharedPref.edit();
         editor.putString(unitID, this.unit);
         editor.apply();
+
+        Log.d("UNIT_SPEED", this.unit);
+        Log.d("UNIT_SPEED", Integer.toString(this.testSpeed));
     }
 
     public void onTestSpeedChanged(int newSpeed) {
@@ -146,5 +158,8 @@ public class DiskRepository {
         SharedPreferences.Editor editor = this.sharedPref.edit();
         editor.putInt(testSpeedID, this.testSpeed);
         editor.apply();
+
+        Log.d("UNIT_SPEED", this.unit);
+        Log.d("UNIT_SPEED", Integer.toString(this.testSpeed));
     }
 }
