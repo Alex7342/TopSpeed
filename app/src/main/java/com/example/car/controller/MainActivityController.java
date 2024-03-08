@@ -5,11 +5,9 @@ import static java.lang.Math.max;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.example.car.MainActivity;
 import com.example.car.Repository.DiskRepository;
-import com.example.car.Repository.IRepository;
 import com.example.car.Result;
 import com.example.car.ResultsActivity;
 import com.example.car.activity.SettingsActivity;
@@ -33,7 +31,7 @@ public class MainActivityController{
     private DiskRepository repository;
     private Context activityContext;
 
-    private final int testSpeed = 30;
+    private  int testSpeed;
     private double speedConversionCoeff;
 
     public MainActivityController(DiskRepository iRepository, Context iActivityContext){
@@ -50,6 +48,7 @@ public class MainActivityController{
         this.speedList.clear();
         this.updateActivitySpeedViews();
         this.updateActivityTimer();
+        this.testSpeed = repository.getTestSpeed();
     }
     private void updateSpeedVariables(int currentSpeed){
         this.currentSpeed = currentSpeed;

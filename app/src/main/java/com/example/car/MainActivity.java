@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void initialise() {
         MyApplication applicationClass = (MyApplication) getApplicationContext();
-        controller = new MainActivityController(applicationClass.getResultsRepository(), this);
-
+        this.controller = new MainActivityController(applicationClass.getResultsRepository(), this);
 
        initialiseViews();
     }
@@ -53,7 +52,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void updateSpeedViews(int speed, double speedometerConversionCoefficient){
-        speedTextView.setText(speed + " km/h");
+        if (controller != null)
+            speedTextView.setText(speed + controller.getMetricUnitString());
         progressBar.setProgress((int) (speed / speedometerConversionCoefficient));
     }
 
