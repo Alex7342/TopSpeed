@@ -26,12 +26,12 @@
             android:exported="false"
             android:theme="@style/Theme.Car" />
         <activity
-            android:name=".ResultsActivity"
+            android:name=".activity.ResultsActivity"
             android:exported="false"
             android:label="@string/title_activity_results"
             android:theme="@style/Theme.Car" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" >
             <intent-filter>

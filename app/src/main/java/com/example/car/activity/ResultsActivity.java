@@ -1,4 +1,4 @@
-package com.example.car;
+package com.example.car.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.view.WindowManager;
 import android.view.WindowMetrics;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.car.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.car;
+package com.example.car.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -21,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.car.MyApplication;
+import com.example.car.R;
 import com.example.car.controller.MainActivityController;
 
 public class MainActivity extends AppCompatActivity{

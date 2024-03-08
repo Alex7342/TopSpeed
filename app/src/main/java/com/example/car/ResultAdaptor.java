@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.car.Model.Result;
+
 import java.util.ArrayList;
 
 public class ResultAdaptor extends BaseAdapter {

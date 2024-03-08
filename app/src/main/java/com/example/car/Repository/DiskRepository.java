@@ -2,23 +2,11 @@ package com.example.car.Repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import com.example.car.Result;
+import com.example.car.Model.Result;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Objects;
-import java.util.Scanner;
-import java.util.Set;
 
 public class DiskRepository {
     private ArrayList<Result> entityList;

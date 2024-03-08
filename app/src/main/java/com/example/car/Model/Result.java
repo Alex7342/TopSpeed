@@ -1,4 +1,4 @@
-package com.example.car;
+package com.example.car.Model;
 
 public class Result {
     private final double time_0_100;

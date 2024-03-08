@@ -6,10 +6,10 @@ import static java.lang.Math.max;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.car.MainActivity;
+import com.example.car.activity.MainActivity;
 import com.example.car.Repository.DiskRepository;
-import com.example.car.Result;
-import com.example.car.ResultsActivity;
+import com.example.car.Model.Result;
+import com.example.car.activity.ResultsActivity;
 import com.example.car.activity.SettingsActivity;
 import com.example.car.activity.StatisticsActivity;
 

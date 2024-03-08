@@ -3,8 +3,7 @@ package com.example.car.controller;
 import android.content.Context;
 
 import com.example.car.Repository.DiskRepository;
-import com.example.car.Repository.IRepository;
-import com.example.car.Result;
+import com.example.car.Model.Result;
 
 import java.util.ArrayList;
 
