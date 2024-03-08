@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity{
     private void initialise() {
         MyApplication applicationClass = (MyApplication) getApplicationContext();
         this.controller = new MainActivityController(applicationClass.getResultsRepository(), this);
+        controller.createTimer();
 
        initialiseViews();
     }

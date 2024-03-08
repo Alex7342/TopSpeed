@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import android.os.Handler;
 
 public class MainActivityController{
     private long startTime;
@@ -34,6 +35,10 @@ public class MainActivityController{
     private  int testSpeed;
     private double speedConversionCoeff;
 
+    private int timerTimeMs;
+
+    boolean isTimerRunning;
+
     public MainActivityController(DiskRepository iRepository, Context iActivityContext){
         this.repository = iRepository;
         this.activityContext = iActivityContext;
@@ -46,6 +51,7 @@ public class MainActivityController{
         this.startTime = this.endTime = this.maxSpeed = this.currentSpeed = 0;
         this.speedConversionCoeff = (double) repository.getTestSpeed() / 100;
         this.speedList.clear();
+        this.resetTimer();
         this.updateActivitySpeedViews();
         this.updateActivityTimer();
         this.testSpeed = repository.getTestSpeed();
@@ -100,10 +106,42 @@ public class MainActivityController{
         ((MainActivity) activityContext).updateSpeedViews(this.currentSpeed, this.speedConversionCoeff);
     }
 
+    public void runTimer(){
+        this.isTimerRunning = true;
+    }
+
+    public void stopTimer(){
+        this.isTimerRunning = false;
+    }
+
+    public void resetTimer(){
+        this.isTimerRunning = false;
+        this.timerTimeMs = 0;
+    }
+
+    public void createTimer(){
+        final Handler handler = new Handler();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isTimerRunning) {
+
+                    double seconds = timerTimeMs / 1000.0;
+
+                    ((MainActivity) activityContext).updateTimerView(Double.toString(seconds));
+
+                    timerTimeMs += 200;
+                }
+                handler.postDelayed(this, 200);
+            }
+        });
+    }
+
     public void onLocationChanged(int locationSpeed){
         if (this.currentSpeed != locationSpeed)
             this.onSpeedChanged(locationSpeed);
-        updateActivityTimer();
+        //updateActivityTimer();
     }
 
     private void onSpeedChanged(int currentSpeed){
@@ -113,6 +151,7 @@ public class MainActivityController{
         if (!hasChanged && currentSpeed > 0){
             this.hasChanged = true;
             this.startTime = System.currentTimeMillis();
+            this.runTimer();
         }
 
         if (!hasFinished && currentSpeed >= testSpeed){
@@ -120,6 +159,7 @@ public class MainActivityController{
             this.endTime = System.currentTimeMillis();
             this.addResult();
             this.startResultsActivity();
+            this.resetSession();
         }
     }
 
