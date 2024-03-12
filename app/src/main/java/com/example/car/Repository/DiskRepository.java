@@ -105,6 +105,10 @@ public class DiskRepository {
         return this.entityList;
     }
 
+    public boolean isMetric(){
+        return Objects.equals(this.unit, "metric");
+    }
+
     public String getUnit() {
         return this.unit;
     }

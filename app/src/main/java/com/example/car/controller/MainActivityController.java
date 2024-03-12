@@ -53,7 +53,7 @@ public class MainActivityController{
         this.speedList.clear();
         this.resetTimer();
         this.updateActivitySpeedViews();
-        this.updateActivityTimer();
+        this.resetActivityTimerView();
         this.testSpeed = repository.getTestSpeed();
     }
     private void updateSpeedVariables(int currentSpeed){
@@ -86,20 +86,14 @@ public class MainActivityController{
         startActivity(this.activityContext, new Intent(activityContext, StatisticsActivity.class), null);
     }
 
-    private String getCurrentTimePeriod(){
-        if (this.startTime == 0)
-            return "0";
-        return Double.toString((System.currentTimeMillis() - this.startTime) / 1000.0);
-    }
-
     private String getCurrentDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
     }
 
-    private void updateActivityTimer(){
-        ((MainActivity) activityContext).updateTimerView(getCurrentTimePeriod());
+    private void resetActivityTimerView(){
+        ((MainActivity) activityContext).updateTimerView("0");
     }
 
     private void updateActivitySpeedViews(){
@@ -139,9 +133,12 @@ public class MainActivityController{
     }
 
     public void onLocationChanged(int locationSpeed){
+        // speed is given in kn / h
+        if (!this.repository.isMetric())
+            locationSpeed = (int) (locationSpeed / 1.6093);
+
         if (this.currentSpeed != locationSpeed)
             this.onSpeedChanged(locationSpeed);
-        //updateActivityTimer();
     }
 
     private void onSpeedChanged(int currentSpeed){
@@ -159,7 +156,7 @@ public class MainActivityController{
             this.endTime = System.currentTimeMillis();
             this.addResult();
             this.startResultsActivity();
-            this.resetSession();
+            this.resetTimer();
         }
     }
 
